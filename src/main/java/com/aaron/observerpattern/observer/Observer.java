@@ -1,5 +1,5 @@
 package com.aaron.observerpattern.observer;
 
 public interface Observer {
-    void update();
+    public void update(float temp, float humidity, float pressure);
 }

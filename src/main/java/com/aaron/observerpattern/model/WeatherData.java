@@ -1,50 +1,53 @@
 package com.aaron.observerpattern.model;
 
-import com.aaron.observerpattern.display.CurrentConditionsDisplay;
-import com.aaron.observerpattern.display.ForecastDisplay;
-import com.aaron.observerpattern.display.StatisticsDisplay;
+import com.aaron.observerpattern.observer.Observer;
+import com.aaron.observerpattern.subject.Subject;
 import org.springframework.stereotype.Component;
 
-@Component
-public class WeatherData {
+import java.util.ArrayList;
+import java.util.List;
 
+@Component
+public class WeatherData implements Subject {
+
+    private final List<Observer> observers;
     private float temperature;
 
     private float humidity;
 
     private float pressure;
 
-    private final CurrentConditionsDisplay currentConditionsDisplay;
+    public WeatherData() {
+        observers = new ArrayList<>();
+    }
 
-    private final StatisticsDisplay statisticsDisplay;
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
 
-    private final ForecastDisplay forecastDisplay;
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
 
-    WeatherData(CurrentConditionsDisplay currentConditionsDisplay, StatisticsDisplay statisticsDisplay, ForecastDisplay forecastDisplay) {
-        this.currentConditionsDisplay = currentConditionsDisplay;
-        this.statisticsDisplay = statisticsDisplay;
-        this.forecastDisplay = forecastDisplay;
+    @Override
+    public void notifyObservers() {
+        for (Observer observer: observers) {
+            observer.update(temperature, humidity, pressure);
+        }
+
     }
 
     public void measurementsChanged() {
-        float temp = getTemperature();
-        float humidity = getHumidity();
-        float pressure = getPressure();
-
-        currentConditionsDisplay.update(temp, humidity, pressure);
-        statisticsDisplay.update(temp, humidity, pressure);
-        forecastDisplay.update(temp, humidity, pressure);
+        notifyObservers();
     }
 
-    public float getTemperature() {
-        return temperature;
+    public void setMeasurements(float temperature, float humidity, float pressure) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        measurementsChanged();
     }
 
-    public float getHumidity() {
-        return humidity;
-    }
-
-    public float getPressure() {
-        return pressure;
-    }
 }

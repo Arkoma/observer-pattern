@@ -1,7 +1,9 @@
 package com.aaron.observerpattern.subject;
 
+import com.aaron.observerpattern.observer.Observer;
+
 public interface Subject {
-    void registerObserver();
-    void removeObserver();
-    void notifyObservers();
+    public void registerObserver(Observer observer);
+    public void removeObserver(Observer observer);
+    public void notifyObservers();
 }
