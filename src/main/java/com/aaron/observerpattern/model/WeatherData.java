@@ -1,40 +1,25 @@
 package com.aaron.observerpattern.model;
 
 import com.aaron.observerpattern.display.CurrentConditionsDisplay;
+import com.aaron.observerpattern.display.DisplayObserver;
 import com.aaron.observerpattern.display.ForecastDisplay;
 import com.aaron.observerpattern.display.StatisticsDisplay;
-import org.springframework.stereotype.Component;
 
-@Component
-public class WeatherData {
+import java.util.ArrayList;
+import java.util.List;
+
+public class WeatherData implements  WeatherSubject {
 
     private float temperature;
+
 
     private float humidity;
 
     private float pressure;
 
-    private final CurrentConditionsDisplay currentConditionsDisplay;
+    private final List<DisplayObserver> observers = new ArrayList<>();
 
-    private final StatisticsDisplay statisticsDisplay;
-
-    private final ForecastDisplay forecastDisplay;
-
-    WeatherData(CurrentConditionsDisplay currentConditionsDisplay, StatisticsDisplay statisticsDisplay, ForecastDisplay forecastDisplay) {
-        this.currentConditionsDisplay = currentConditionsDisplay;
-        this.statisticsDisplay = statisticsDisplay;
-        this.forecastDisplay = forecastDisplay;
-    }
-
-    public void measurementsChanged() {
-        float temp = getTemperature();
-        float humidity = getHumidity();
-        float pressure = getPressure();
-
-        currentConditionsDisplay.update(temp, humidity, pressure);
-        statisticsDisplay.update(temp, humidity, pressure);
-        forecastDisplay.update(temp, humidity, pressure);
-    }
+    public WeatherData() {}
 
     public float getTemperature() {
         return temperature;
@@ -47,4 +32,42 @@ public class WeatherData {
     public float getPressure() {
         return pressure;
     }
+
+    public void setTemperature(float temperature) {
+        if (this.temperature != temperature) {
+            this.temperature = temperature;
+            this.notifyObservers();
+        }
+    }
+
+    public void setHumidity(float humidity) {
+        if (this.humidity != humidity) {
+            this.humidity = humidity;
+            this.notifyObservers();
+        }
+    }
+
+    public void setPressure(float pressure) {
+        if (this.pressure != pressure) {
+            this.pressure = pressure;
+            this.notifyObservers();
+        }
+    }
+
+    @Override
+    public void registerObserver(DisplayObserver observer) {
+        // todo: add check if observer already exists
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(DisplayObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(getTemperature(), getHumidity(), getPressure()));
+    }
+
 }

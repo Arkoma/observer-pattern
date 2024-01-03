@@ -1,9 +1,8 @@
 package com.aaron.observerpattern.display;
 
-import org.springframework.stereotype.Component;
+public class CurrentConditionsDisplay implements DisplayObserver {
 
-@Component
-public class CurrentConditionsDisplay {
+    @Override
     public void update(float temp, float humidity, float pressure) {
 
     }
