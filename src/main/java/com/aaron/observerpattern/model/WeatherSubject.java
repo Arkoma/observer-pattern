@@ -1,9 +1,9 @@
 package com.aaron.observerpattern.model;
 
-import com.aaron.observerpattern.display.DisplayObserver;
+import com.aaron.observerpattern.display.WeatherObserver;
 
 public interface WeatherSubject {
-    void registerObserver(DisplayObserver observer);
-    void removeObserver(DisplayObserver observer);
+    void registerObserver(WeatherObserver observer);
+    void removeObserver(WeatherObserver observer);
     void notifyObservers();
 }

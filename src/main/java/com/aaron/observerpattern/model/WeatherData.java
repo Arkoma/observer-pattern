@@ -1,9 +1,6 @@
 package com.aaron.observerpattern.model;
 
-import com.aaron.observerpattern.display.CurrentConditionsDisplay;
-import com.aaron.observerpattern.display.DisplayObserver;
-import com.aaron.observerpattern.display.ForecastDisplay;
-import com.aaron.observerpattern.display.StatisticsDisplay;
+import com.aaron.observerpattern.display.WeatherObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +14,11 @@ public class WeatherData implements  WeatherSubject {
 
     private float pressure;
 
-    private final List<DisplayObserver> observers = new ArrayList<>();
+    private final List<WeatherObserver> observers;
 
-    public WeatherData() {}
+    public WeatherData() {
+        this.observers = new ArrayList<>();
+    }
 
     public float getTemperature() {
         return temperature;
@@ -55,13 +54,13 @@ public class WeatherData implements  WeatherSubject {
     }
 
     @Override
-    public void registerObserver(DisplayObserver observer) {
+    public void registerObserver(WeatherObserver observer) {
         // todo: add check if observer already exists
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(DisplayObserver observer) {
+    public void removeObserver(WeatherObserver observer) {
         this.observers.remove(observer);
     }
 
