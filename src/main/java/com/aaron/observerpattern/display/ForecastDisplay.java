@@ -15,9 +15,9 @@ public class ForecastDisplay implements WeatherObserver, WeatherDisplay {
     }
 
     @Override
-    public void update(float temp, float humidity, float pressure) {
+    public void update() {
         String message = "";
-
+        final float pressure = this.weatherData.getPressure();
         if (pressure > this.previousPressure) {
             message = "Improving weather on the way!";
         }

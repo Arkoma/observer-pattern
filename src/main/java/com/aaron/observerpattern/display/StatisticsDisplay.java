@@ -13,7 +13,7 @@ public class StatisticsDisplay implements WeatherObserver, WeatherDisplay {
     private final WeatherData weatherData;
     private Float maxTemp;
     private Float minTemp;
-    private List<Float> temps = new ArrayList<>();
+    private final List<Float> temps = new ArrayList<>();
     private Float avgTemp;
 
     public StatisticsDisplay (WeatherData weatherData) {
@@ -22,7 +22,8 @@ public class StatisticsDisplay implements WeatherObserver, WeatherDisplay {
     }
 
     @Override
-    public void update(float temp, float humidity, float pressure) {
+    public void update() {
+       final float temp = this.weatherData.getTemperature();
        if (maxTemp == null) maxTemp = temp;
        if (minTemp == null) minTemp = temp;
        if (temp > maxTemp) maxTemp = temp;

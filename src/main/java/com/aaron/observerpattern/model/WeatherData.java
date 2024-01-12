@@ -39,27 +39,6 @@ public class WeatherData implements  WeatherSubject {
         this.notifyObservers();
     }
 
-    public void setTemperature(float temperature) {
-        if (this.temperature != temperature) {
-            this.temperature = temperature;
-            this.notifyObservers();
-        }
-    }
-
-    public void setHumidity(float humidity) {
-        if (this.humidity != humidity) {
-            this.humidity = humidity;
-            this.notifyObservers();
-        }
-    }
-
-    public void setPressure(float pressure) {
-        if (this.pressure != pressure) {
-            this.pressure = pressure;
-            this.notifyObservers();
-        }
-    }
-
     @Override
     public void registerObserver(WeatherObserver observer) {
         // todo: add check if observer already exists
@@ -73,7 +52,7 @@ public class WeatherData implements  WeatherSubject {
 
     @Override
     public void notifyObservers() {
-        observers.forEach(observer -> observer.update(getTemperature(), getHumidity(), getPressure()));
+        observers.forEach(WeatherObserver::update);
     }
 
 }
